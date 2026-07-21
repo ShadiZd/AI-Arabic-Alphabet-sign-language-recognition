@@ -27,7 +27,7 @@ hand *shape*, not appearance. This project:
 ## Setup
 
 ```bash
-python -m venv venv
+python -3.12 -m venv venv
 venv\Scripts\activate        # Windows
 # source venv/bin/activate   # macOS/Linux
 
