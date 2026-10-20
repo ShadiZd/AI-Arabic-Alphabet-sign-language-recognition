@@ -1,95 +1,125 @@
-# Sign Language Recognition (OpenCV + MediaPipe)
+# 🤟 AI Arabic Alphabet Sign Language Recognition
 
-Real-time hand sign recognition using your webcam. Detects hand landmarks with
-MediaPipe Hands, then matches them against gestures you've recorded yourself —
-no pre-trained gesture dataset required.
+An AI-powered application that recognizes Arabic alphabet signs using computer vision and machine learning. The project provides tools for collecting sign samples, building a recognition model, and recognizing signs through a Python application.
 
-## How it works
+## ✨ Features
 
-Unlike face recognition (which compares against photos), signs are defined by
-hand *shape*, not appearance. This project:
+- **Arabic Sign Recognition:** Recognize Arabic alphabet signs using a trained machine learning model.
+- **Sign Data Collection:** Collect and save samples to build or expand your own dataset.
+- **Model Training:** Train a recognition model using collected sign samples.
+- **Computer Vision:** Use a camera to capture and process signs.
+- **Speech Support:** Support for text-to-speech functionality where implemented.
+- **Customizable Dataset:** Collect your own samples to adapt the system to your needs.
 
-1. Captures your hand's 21 landmark points via MediaPipe
-2. Normalizes them (translation + scale invariant, anchored on the wrist) so
-   it works regardless of hand size or distance from the camera
-3. Matches new frames against your recorded gestures using nearest-neighbor
-   distance on those normalized landmarks
+## 🛠️ Technologies Used
 
-## Files
+- Python
+- Computer Vision
+- Machine Learning
+- NumPy and other dependencies listed in `req.txt`
 
-| File | Purpose |
+## 📁 Project Structure
+
+| File or folder | Description |
 |---|---|
-| `simple_signrec.py` | Core engine — landmark detection, normalization, matching |
-| `collect_signs.py` | Interactive tool to record your own gesture samples |
-| `main.py` | Live webcam recognition loop |
-| `encodings/` | Auto-created folder storing recorded gesture data (`.npy` files) |
+| `main.py` | Main application entry point |
+| `simple_signrec.py` | Sign recognition implementation |
+| `collect_signs.py` | Collects sign samples |
+| `build_model.py` | Builds or trains the recognition model |
+| `signs_model.joblib` | Saved trained model |
+| `signs.jpg` | Project image or visual resource |
+| `req.txt` | Python dependency list |
+| `encodings/` | Directory for collected or generated sign data |
+| `tts_cache/` | Directory for generated text-to-speech cache files |
 
-## Setup
+## 🚀 Getting Started
 
-```bash
-python -3.12 -m venv venv
-venv\Scripts\activate        # Windows
-# source venv/bin/activate   # macOS/Linux
-
-pip install opencv-python mediapipe numpy
-```
-
-> **Note:** MediaPipe works best on Python 3.10–3.11. If you hit
-> `AttributeError: module 'mediapipe' has no attribute 'solutions'`, try a
-> clean venv with Python 3.10/3.11, or pin `pip install mediapipe==0.10.9`.
-
-## Usage
-
-### 1. Record your gestures
+### 1. Clone the repository
 
 ```bash
-python collect_signs.py
+git clone https://github.com/ShadiZd/AI-Arabic-Alphabet-sign-language-recognition.git
+cd AI-Arabic-Alphabet-sign-language-recognition
 ```
 
-- Enter a label when prompted (e.g. `hello`, `yes`, `thank_you`)
-- Position your hand in frame, press **SPACE** to capture a sample
-  (aim for 15–30 samples per gesture, varying angle/position/distance each time)
-- Press **ESC** to finish that gesture and move to the next
-- Leave the label empty and press Enter to quit
+### 2. Create a virtual environment
 
-Samples are saved to `encodings/<label>_<index>.npy`.
+```bash
+python -m venv venv
+```
 
-### 2. Run recognition
+Activate it on Windows:
+
+```powershell
+.\venv\Scripts\Activate.ps1
+```
+
+On Linux or macOS:
+
+```bash
+source venv/bin/activate
+```
+
+### 3. Install dependencies
+
+```bash
+python -m pip install -r req.txt
+```
+
+### 4. Run the application
 
 ```bash
 python main.py
 ```
 
-Opens your webcam, draws a box and predicted label over each detected hand.
-Press **ESC** to quit.
+Make sure your camera is connected and that the application has permission to access it.
 
-## Tuning accuracy
+## 🧠 How It Works
 
-`distance_threshold` in `main.py` controls how strict matching is:
+The project follows a machine learning workflow:
 
-```python
-ssr = SimpleSignRec(distance_threshold=0.15)
-```
+1. **Collect data:** Capture samples of Arabic alphabet signs.
+2. **Build the model:** Process the collected samples and train the recognition model.
+3. **Recognize signs:** Use the trained model to predict signs from new input.
+4. **Present the result:** Display the recognized sign and provide speech output where supported.
 
-- **Lower** (e.g. `0.1`) → stricter, may reject valid signs from slightly
-  different angles
-- **Higher** (e.g. `0.25–0.3`) → more flexible, but similar-looking signs may
-  get confused with each other
+## 📊 Model and Dataset
 
-## Tips for better accuracy
+The repository includes a saved model file, `signs_model.joblib`. You can also use the project's data collection and model-building scripts to develop your own dataset and model.
 
-- Record more samples per gesture, with real variation in angle, hand
-  position, and distance from camera — not just the same pose repeated
-- Keep gestures visually distinct from one another; near-identical hand
-  shapes will be harder to tell apart
-- If multiple people will use the system, consider recording samples from
-  each person
+Recognition performance depends on the quality and variety of training samples, camera conditions, lighting, and how consistently signs are performed.
 
-## Known limitations
+## 🔧 Customization
 
-- This is a **static, single-frame** matcher — it recognizes hand *shapes*,
-  not motion. True sign language often involves movement and two-hand
-  coordination.
-- For a larger vocabulary or motion-based signs, you'd want to record
-  landmark *sequences* over time and train a temporal model (e.g. LSTM)
-  instead of frame-by-frame nearest-neighbor matching.
+To adapt the project for your own use:
+
+- Collect additional examples of the signs you want to recognize.
+- Retrain the model when your dataset changes.
+- Test recognition under different lighting and camera conditions.
+- Keep generated data and cache files local to your machine.
+
+The `encodings/` and `tts_cache/` directories are preserved in the repository using `.gitkeep` files. Generated files inside these directories are excluded from Git.
+
+## 🔮 Future Improvements
+
+- Expand the dataset with more sign variations.
+- Improve recognition accuracy and robustness.
+- Add real-time recognition performance metrics.
+- Develop a user-friendly graphical interface.
+- Support additional signs and sign-language applications.
+- Evaluate the model using a separate test dataset.
+
+## 👨‍💻 Author
+
+**Shadi Zyoud**
+
+AI and Robotics student interested in artificial intelligence, machine learning, and computer vision.
+
+- GitHub: [@ShadiZd](https://github.com/ShadiZd)
+
+## 🤝 Contributions
+
+Suggestions, bug reports, and contributions are welcome. Feel free to fork the repository, improve the implementation, and submit a pull request.
+
+## 📄 License
+
+A license has not yet been specified. Please add a license file if you intend to define how others may use, modify, and distribute this project.
