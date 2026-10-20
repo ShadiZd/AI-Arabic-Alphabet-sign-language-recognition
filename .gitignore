@@ -1,3 +1,17 @@
-.vscode/
-__pycache__/
+﻿# Python virtual environments
 venv/
+.venv/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Local environment variables
+.env
+
+# Ignore generated files, but keep the folders
+encodings/**
+!encodings/.gitkeep
+
+tts_cache/**
+!tts_cache/.gitkeep
